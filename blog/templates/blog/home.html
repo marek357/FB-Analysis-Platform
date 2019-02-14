@@ -3,17 +3,17 @@
 {% block content %}
 <h1>Platforma do analizy danych z Facebooka</h1>
 
-<a class="button" href="/messagestats">Statystyki dotyczące wiadomości</a>
+<a class="button" href="{% url 'platf_msgstats' as url1 %} {{ url1 }}">Statystyki dotyczące wiadomości</a>
 <br>
-<a class="button" href="/adstats">Statystyki dotyczące reklamodawców</a>
+<a class="button" href="{% url 'platf_adstats' as url2 %} {{ url2 }}">Statystyki dotyczące reklamodawców</a>
 <br>
-<a class="button" href="/wordstats">Statystyki dotyczące słownictwa</a>
+<a class="button" href="{% url 'platf_wordstats' as url3 %} {{ url3 }}">Statystyki dotyczące słownictwa</a>
 <br>
 Obecna lokalizacja pliku:
  {% if postdata %}
     {{postdata}}
  {% endif%}
- <a class="button" href="/changedir"> Zmień </a>
+ <a class="button" href="{% url 'platf_chdir' as url4 %} {{ url4 }}"> Zmień </a>
  <br><br><br>
 {% if dirdata %}
     {{dirdata}}

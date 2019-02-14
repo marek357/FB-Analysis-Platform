@@ -2,11 +2,6 @@ from django.shortcuts import render
 import os
 import json
 import operator
-import pandas as ps
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
-from datetime import datetime, timedelta
 from nltk.tokenize import word_tokenize
 
 #/Users/marekmasiak/Downloads/facebook-marekmasiak2
@@ -44,7 +39,6 @@ def adstats(request):
 
     directory = getDirectory()
     try:
-        data = os.listdir(directory)
         adDataDirectory = directory + '/ads/advertisers_who_uploaded_a_contact_list_with_your_information.json'
         adContent = ""
         temporaryFile = open(adDataDirectory, 'r')
@@ -64,7 +58,6 @@ def wordstats(request):
     try:
         directory = getDirectory()
         messagePaths = []
-        data = os.listdir(directory)
         messageDataDirectory = directory + '/messages/inbox'
         messageData = os.listdir(messageDataDirectory)
 
@@ -131,7 +124,6 @@ def messagestats(request):
         i przechowuje je w messagePaths
         """
         messagePaths = []
-        data = os.listdir(directory)
         messageDataDirectory = directory + '/messages/inbox'
         messageData = os.listdir(messageDataDirectory)
 
@@ -190,4 +182,4 @@ def messagestats(request):
 
 def about(request):
     context = {'tytul': 'o nas'}
-    return render(request, 'blog/about.html')
+    return render(request, 'blog/about.html', context)
