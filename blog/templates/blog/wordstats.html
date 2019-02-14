@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h1>Platforma do analizy danych z Facebooka</h1>
+
+{% if words %}
+    <h1>Lista 100 najczęściej używanych w Pana/Pani konwersacji słów</h1>
+    <div style="color:red;">
+    {% for word in words %}
+        <h2>{{word}}</h2>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock content %}
+

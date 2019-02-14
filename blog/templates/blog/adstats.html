@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h1>Platforma do analizy danych z Facebooka</h1>
+
+{% if adv %}
+    <h1>Lista reklamodawców, którzy bezpośrednio targetowali reklamy w Pana/Pani stronę</h1>
+    <div style="color:red;">
+    {% for advertisers in adv %}
+        <h2>{{advertisers}}</h2>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock content %}
+

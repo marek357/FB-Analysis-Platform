@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h1>Platforma do analizy danych z Facebooka</h1>
+
+<a class="button" href="/messagestats">Statystyki dotyczące wiadomości</a>
+<br>
+<a class="button" href="/adstats">Statystyki dotyczące reklamodawców</a>
+<br>
+<a class="button" href="/wordstats">Statystyki dotyczące słownictwa</a>
+<br>
+Obecna lokalizacja pliku:
+ {% if postdata %}
+    {{postdata}}
+ {% endif%}
+ <a class="button" href="/changedir"> Zmień </a>
+
+{% endblock content %}
+
+
