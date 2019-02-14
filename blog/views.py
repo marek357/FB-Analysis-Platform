@@ -4,8 +4,12 @@ import json
 import operator
 import pandas as ps
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
 from datetime import datetime, timedelta
 from nltk.tokenize import word_tokenize
+
+#/Users/marekmasiak/Downloads/facebook-marekmasiak2
 
 
 def getDirectory():
@@ -23,8 +27,9 @@ def writeDirectory(directo):
 
 
 def home(request):
-    dire = request.POST.get('directory', '/insert/your/default/files/dir/here')
+    dire = request.POST.get('directory', '/Users/marekmasiak/Downloads/facebook-marekmasiak2')
     writeDirectory(dire)
+
     context = {'postdata': dire}
     return render(request, 'blog/home.html', context)
 
@@ -96,9 +101,19 @@ def wordstats(request):
 
         words = sorted(words.items(), key=operator.itemgetter(1), reverse=True)
         wordList = []
-        for i in range(0, 100):
+        wordDict = {}
+        wordKeys = []
+        wordItems = []
+        for i in range(0, 50):
             wordList.append(words[i][0] + ' (' + str(words[i][1]) + ')')
-        context = {'tytul': 'Strona domowa', 'words': wordList}
+            wordDict[words[i][0]] = words[i][1]
+            wordKeys.append(words[i][0])
+            wordItems.append(words[i][1])
+        # plt.plot(wordKeys,wordItems)
+        # plt.xlabel('Słowo')
+        # plt.ylabel('Liczba wystąpień')
+        # plt.savefig('/stat.png')
+        context = {'tytul': 'Strona domowa', 'words': wordList, 'data': wordDict, 'pic': '/stat.png'}
     except FileNotFoundError:
         context = {'dirname': directory, 'tytul': 'Statystyki wiadomości', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z danymi Facebooka'}
 

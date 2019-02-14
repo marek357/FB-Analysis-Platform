@@ -1,15 +1,55 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
+<style>
+#myChart {
+  width: 100%;
+  height: 500px;
+}
+
+</style>
 <h1>Platforma do analizy danych z Facebooka</h1>
+
+<table style="width:100%">
+  <tr>
+
+
 
 {% if words %}
     <h1>Lista 100 najczęściej używanych w Pana/Pani konwersacji słów</h1>
-    <div style="color:red;">
+    <th><div style="color:red;">
     {% for word in words %}
         <h2>{{word}}</h2>
     {% endfor %}
-    </div>
+    </div></th>
+{% endif %}
+{% if data %}
+    <th valign="top"><canvas id="myChart" width="100" height="100" ></canvas></th>
+    <script>
+        <!-- https://www.chartjs.org/docs/latest/getting-started/usage.html -->
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myData = [{% for key, value in data.items %} {{value}}, {% endfor %}];
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [{% for key in data %} '{{key}}', {% endfor %}],
+                datasets: [{
+                    label: '# of Votes',
+                    data: myData,
+                    backgroundColor: palette('tol-sq', myData.length).map(function(hex) {
+                      return '#' + hex;
+                    })
+
+            }]
+          }
+        });
+    </script>
+    </tr>
+</table>
+
+{% endif %}
+{% if test %}
+    {{ test }}
 {% endif %}
 
 {% endblock content %}
