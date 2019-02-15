@@ -78,14 +78,14 @@ def wordstats(request):
     words = {}
 
     for i in messagePaths:
-        temporaryFile = open(i, 'r')
-        if temporaryFile.mode == 'r':
-            try:
+        try:
+            temporaryFile = open(i, 'r')
+            if temporaryFile.mode == 'r':
                 tempContainer = json.loads(temporaryFile.read())
                 messageContent.append(json.loads(json.dumps(tempContainer).encode('latin1').decode('utf-8')))
-            except:
-                pass
-        temporaryFile.close()
+            temporaryFile.close()
+        except:
+            pass
 
     """
     Kod robi statystyki 100 najczesciej uzywanych slow
@@ -148,15 +148,13 @@ def messagestats(request):
     messageContent = []
     messageCount = {}
     for i in messagePaths:
-        temporaryFile = open(i, 'r')
-        if temporaryFile.mode == 'r':
-            try:
+        try:
+            temporaryFile = open(i, 'r')
+            if temporaryFile.mode == 'r':
                 messageContent.append(json.loads(temporaryFile.read()))
-            except:
-                pass
-
-        temporaryFile.close()
-
+            temporaryFile.close()
+        except:
+            pass
     """
     ZADANIE 1
     Kod liczy ilosc rzeczy z JSONArray messages
