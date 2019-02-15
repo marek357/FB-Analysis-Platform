@@ -3,8 +3,10 @@ import os
 import json
 import operator
 from nltk.tokenize import word_tokenize
+from nltk.tokenize import RegexpTokenizer
+from datetime import datetime, timedelta
 
-
+#/Users/marekmasiak/Downloads/facebook-marekmasiak2
 
 
 def getDirectory():
@@ -21,11 +23,33 @@ def writeDirectory(directo):
     return
 
 
+def writeDate(datePeriod):
+    file = open("date.txt", "w+")
+    file.write(str(datePeriod))
+    file.close
+    return
+
+
+def getDate(mode):
+    file = open("date.txt", "r")
+    toReturn = file.read()
+    file.close()
+    try:
+        return int(toReturn)
+    except:
+        if mode == 0:
+            return 'nieograniczony'
+        else:
+            return int(1000000)
+
+
 def home(request):
-    dire = request.POST.get('directory', '/replace/with/own/default/dir')
+    dire = request.POST.get('directory', '/Users/marekmasiak/Downloads/facebook-marekmasiak2')
+    days = request.POST.get('days', 'nieograniczony')
+    writeDate(days)
     writeDirectory(dire)
 
-    context = {'postdata': dire}
+    context = {'postdata': getDirectory(), 'period': getDate(0)}
     return render(request, 'platforma/home.html', context)
 
 
@@ -43,9 +67,9 @@ def adstats(request):
         adContent = ""
         temporaryFile = open(adDataDirectory, 'r')
         if temporaryFile.mode == 'r':
-            adContent = (temporaryFile.read())
+            tempContainer = json.loads(temporaryFile.read())
         temporaryFile.close()
-        adJSON = json.loads(adContent)
+        adJSON = json.loads(json.dumps(tempContainer).encode('latin1').decode('utf-8', 'ignore'))
 
         context = {'dirname': directory, 'tytul': 'Reklamodawcy', 'adv': adJSON['custom_audiences']}
     except FileNotFoundError:
@@ -70,10 +94,6 @@ def wordstats(request):
             except:
                 pass
 
-    """
-    Kod zbiera zawartosci poszczegolnych plikow
-    zawierajace wiadomosci
-    """
     messageContent = []
     words = {}
 
@@ -87,18 +107,19 @@ def wordstats(request):
         except:
             pass
 
-    """
-    Kod robi statystyki 100 najczesciej uzywanych slow
-    """
-
     for i in range(0, len(messageContent)):
-        for a in messageContent[i]['messages']:
-            a['content'] = str(a['content']).encode('latin1').decode('utf-8', 'ignore')
-            for x in word_tokenize(a['content']):
-                if x not in words:
-                    words[x] = 1
-                else:
-                    words[x] += 1
+        try:
+            for a in messageContent[i]['messages']:
+                a['content'] = str(a['content']).encode('latin1').decode('utf-8', 'ignore')
+                tokenizer = RegexpTokenizer(r'\w+')
+
+                for x in tokenizer.tokenize(a['content']):
+                    if x not in words:
+                        words[x] = 1
+                    else:
+                        words[x] += 1
+        except:
+            pass
 
     words = sorted(words.items(), key=operator.itemgetter(1), reverse=True)
     wordList = []
@@ -110,25 +131,16 @@ def wordstats(request):
         wordDict[words[i][0]] = words[i][1]
         wordKeys.append(words[i][0])
         wordItems.append(words[i][1])
-    # plt.plot(wordKeys,wordItems)
-    # plt.xlabel('Słowo')
-    # plt.ylabel('Liczba wystąpień')
-    # plt.savefig('/stat.png')
+
     context = {'tytul': 'Strona domowa', 'words': wordList, 'data': wordDict, 'pic': '/stat.png'}
 
     return render(request, 'platforma/wordstats.html', context)
 
 
 def messagestats(request):
-    # context = {'dirname': '/users/asfd/asd/asdf', 'tytul': 'asdfasdfasdf', 'range': range(13)}
     try:
         directory = getDirectory()
 
-        """
-        Kod znajduje sciezki do
-        wszystkich osob z ktorymi pisales
-        i przechowuje je w messagePaths
-        """
         messagePaths = []
         messageDataDirectory = directory + '/messages/inbox'
         messageData = os.listdir(messageDataDirectory)
@@ -141,10 +153,7 @@ def messagestats(request):
                 messagePaths.append(messageDataDirectory + '/' + messageData[i] + '/message.json')
             except:
                 pass
-    """
-    Kod zbiera zawartosci poszczegolnych plikow
-    zawierajace wiadomosci
-    """
+
     messageContent = []
     messageCount = {}
     for i in messagePaths:
@@ -155,11 +164,7 @@ def messagestats(request):
             temporaryFile.close()
         except:
             pass
-    """
-    ZADANIE 1
-    Kod liczy ilosc rzeczy z JSONArray messages
-    i srednia ilosc wiadomosci
-    """
+
     averageNumberOfMessages = 0
 
     for i in range(0, len(messageContent)):
@@ -169,23 +174,69 @@ def messagestats(request):
 
     averageNumberOfMessages /= len(messageContent)
 
-    """
-    Wypisuje top 5 osob,
-    z ktorymi pisales
-    """
-
-    #print('5 osob, z ktorymi najczesciej pisales to:')
+    for i in range(0, len(messageContent)):
+        for a in messageContent[i]['messages']:
+            a['timestamp_ms'] = str(datetime.fromtimestamp(int(a['timestamp_ms']) / 1000).strftime('%Y-%m-%d %H:%M:%S.%f'))
 
     numberOfGroupChats = 1
-    # print(len(messageCount))
     ppl = []
-    for i in range(0, len(messageCount)):
+    for i in range(0, len(messageContent)):
         if len(messageContent[messageCount[i][0]]['participants']) <= 2:
-            #print(str(messageContent[messageCount[i][0]]['participants'][0]['name']) + '(' + str(messageCount[i][1])+')')
-            ppl.append(str(messageContent[messageCount[i][0]]['participants'][0]['name']) + '(' + str(messageCount[i][1]) + ')')
+            ppl.append(str(str(messageContent[messageCount[i][0]]['participants'][0]['name']).encode('latin1').decode('utf-8') + '(' + str(messageCount[i][1]) + ')'))
         else:
             numberOfGroupChats += 1
-    context = {'dirname': directory, 'tytul': 'Strona Domowa', 'range': range(13), 'nr': numberOfGroupChats, 'avgmsg': averageNumberOfMessages, 'ppl': ppl}
+
+    """
+    ZADANIE 2
+    """
+    pplLP = []
+    avgValue = 0
+    lastMonthMessages = {}
+
+    try:
+        print(int(getDate(1)))
+        aMonthAgo = datetime.now() - timedelta(days=getDate(1))
+    except:
+        aMonthAgo = datetime.now() - timedelta(days=100000)
+
+    numberOfGroupChats = 1
+    for i in range(0, len(messageContent)):
+        if len(messageContent[i]['participants']) <= 2:
+            lastMonthMessages[str(messageContent[i]['participants'][0]['name']).encode('latin1').decode('utf-8')] = 0
+        else:
+            lastMonthMessages[str('Czat Grupowy ' + str(numberOfGroupChats))] = 0
+            numberOfGroupChats += 1
+
+    numberOfGroupChats = 1
+    for i in range(0, len(messageContent)):
+        if len(messageContent[i]['participants']) <= 2:
+            for a in messageContent[i]['messages']:
+                if datetime.strptime(a['timestamp_ms'], '%Y-%m-%d %H:%M:%S.%f') >= aMonthAgo:
+                    lastMonthMessages[str(messageContent[i]['participants'][0]['name']).encode('latin1').decode('utf-8')] += 1
+                    avgValue += 1
+        else:
+            for a in messageContent[i]['messages']:
+                if datetime.strptime(a['timestamp_ms'], '%Y-%m-%d %H:%M:%S.%f') >= aMonthAgo:
+                    avgValue += 1
+            numberOfGroupChats += 1
+
+    realPeople = {}
+    for i in lastMonthMessages:
+        if lastMonthMessages[i] != 0:
+            realPeople[i] = lastMonthMessages[i]
+    try:
+        avgValue /= len(realPeople)
+    except:
+        avgValue = 0
+    realPeople = sorted(realPeople.items(), key=operator.itemgetter(1), reverse=True)
+    avglpnb = float("{0:.1f}".format(avgValue))
+    for i in range(0, len(realPeople)):
+        pplLP.append(str(realPeople[i][0] + ' (' + str(realPeople[i][1]) + ')'))
+
+    print('Średnia ilość wiadomości to: ' + str(avgValue))
+    avgnb = float("{0:.1f}".format(averageNumberOfMessages))
+    aver = float("{0:.1f}".format(avgValue))
+    context = {'dirname': directory, 'tytul': 'Strona Domowa', 'range': range(13), 'nr': numberOfGroupChats, 'avgmsg': avgnb, 'ppl': ppl, 'pplLP': pplLP, 'avgLP': aver}
 
     return render(request, 'platforma/messagestats.html', context)
 

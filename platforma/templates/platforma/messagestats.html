@@ -3,6 +3,8 @@
 {% block content %}
 <h1>Platforma do analizy danych z Facebooka</h1>
 
+
+
 {% if nr %}
     <h1>Lista czatów grupowych, w których Pan/Pani brała udział</h1>
     <div style="color:red;">
@@ -15,15 +17,40 @@
     <h2>{{avgmsg}}</h2>
     </div>
 {% endif %}
-{% if ppl %}
-    <h1>Osoby, z którymi Pan/Pani wysyłała wiadomości, oraz ilość wiadomości</h1>
-    <h3>
+{% if avgLP %}
+    <h1>Średnia ilość wiadomości wysyłanych w podanym okresie danych, zapewnionych przez Pana/Panią</h1>
     <div style="color:red;">
-    {% for people in ppl %}
-        <br>{{people}}<br>
-    {% endfor%}
+    <h2>{{avgLP}}</h2>
     </div>
-    </h3>
-{% endif %}
+
+{% endif%}
+<table>
+<tr align="left">
+    <td>
+        {% if ppl %}
+            <h1>Osoby, z którymi Pan/Pani wysyłała wiadomości, oraz ilość wiadomości</h1>
+            <h3>
+            <div style="color:red;">
+            {% for people in ppl %}
+                <br>{{people}}<br>
+            {% endfor%}
+            </div>
+            </h3>
+        {% endif %}
+    </td>
+    <td align="right" valign="top">
+        {% if pplLP %}
+            <h1>Osoby, z którymi Pan/Pani wysyłała wiadomości, oraz ilość wiadomości z wybranego przedziału czasowego</h1>
+            <h3>
+            <div style="color:red;">
+            {% for people in pplLP %}
+                <br>{{people}}<br>
+            {% endfor%}
+            </div>
+            </h3>
+        {% endif %}
+    </td>
+</tr>
+
 {% endblock content %}
 

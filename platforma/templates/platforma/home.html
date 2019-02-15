@@ -9,12 +9,16 @@
 <br>
 <a class="button" href="{% url 'platf_wordstats' as url3 %} {{ url3 }}">Statystyki dotyczące słownictwa</a>
 <br>
-Obecna lokalizacja pliku:
- {% if postdata %}
-    {{postdata}}
- {% endif%}
- <a class="button" href="{% url 'platf_chdir' as url4 %} {{ url4 }}"> Zmień </a>
- <br><br><br>
+{% if postdata %}
+   Obecna lokalizacja pliku:
+   {{postdata}}
+{% endif%}
+{% if period %}
+    Obecnie rozpatrywany przedział czasowy:
+    {{period}}
+{% endif %}
+<a class="button" href="{% url 'platf_chdir' as url4 %} {{ url4 }}"> Zmień </a>
+<br><br><br>
 {% if dirdata %}
     {{dirdata}}
 {% endif%}
