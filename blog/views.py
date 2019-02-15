@@ -60,10 +60,15 @@ def wordstats(request):
         messagePaths = []
         messageDataDirectory = directory + '/messages/inbox'
         messageData = os.listdir(messageDataDirectory)
+    except FileNotFoundError:
+        context = {'dirname': directory, 'tytul': 'Statystyki wiadomości', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z danymi Facebooka'}
 
         for i in range(0, len(messageData)):
             if messageData[i] != '.DS_Store':
-                messagePaths.append(messageDataDirectory + '/' + messageData[i] + '/message.json')
+                try:
+                    messagePaths.append(messageDataDirectory + '/' + messageData[i] + '/message.json')
+                except:
+                    pass
 
         """
         Kod zbiera zawartosci poszczegolnych plikow
@@ -75,8 +80,11 @@ def wordstats(request):
         for i in messagePaths:
             temporaryFile = open(i, 'r')
             if temporaryFile.mode == 'r':
-                tempContainer = json.loads(temporaryFile.read())
-                messageContent.append(json.loads(json.dumps(tempContainer).encode('latin1').decode('utf-8')))
+                try:
+                    tempContainer = json.loads(temporaryFile.read())
+                    messageContent.append(json.loads(json.dumps(tempContainer).encode('latin1').decode('utf-8')))
+                except:
+                    pass
             temporaryFile.close()
 
         """
@@ -107,8 +115,6 @@ def wordstats(request):
         # plt.ylabel('Liczba wystąpień')
         # plt.savefig('/stat.png')
         context = {'tytul': 'Strona domowa', 'words': wordList, 'data': wordDict, 'pic': '/stat.png'}
-    except FileNotFoundError:
-        context = {'dirname': directory, 'tytul': 'Statystyki wiadomości', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z danymi Facebooka'}
 
     return render(request, 'blog/wordstats.html', context)
 
@@ -126,11 +132,15 @@ def messagestats(request):
         messagePaths = []
         messageDataDirectory = directory + '/messages/inbox'
         messageData = os.listdir(messageDataDirectory)
+    except FileNotFoundError:
+        context = {'dirname': directory, 'tytul': 'Reklamodawcy', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z danymi Facebooka'}
 
         for i in range(0, len(messageData)):
             if messageData[i] != '.DS_Store':
-                messagePaths.append(messageDataDirectory + '/' + messageData[i] + '/message.json')
-
+                try:
+                    messagePaths.append(messageDataDirectory + '/' + messageData[i] + '/message.json')
+                except:
+                    pass
         """
         Kod zbiera zawartosci poszczegolnych plikow
         zawierajace wiadomosci
@@ -140,7 +150,11 @@ def messagestats(request):
         for i in messagePaths:
             temporaryFile = open(i, 'r')
             if temporaryFile.mode == 'r':
-                messageContent.append(json.loads(temporaryFile.read()))
+                try:
+                    messageContent.append(json.loads(temporaryFile.read()))
+                except:
+                    pass
+
             temporaryFile.close()
 
         """
@@ -174,8 +188,6 @@ def messagestats(request):
             else:
                 numberOfGroupChats += 1
         context = {'dirname': directory, 'tytul': 'Strona Domowa', 'range': range(13), 'nr': numberOfGroupChats, 'avgmsg': averageNumberOfMessages, 'ppl': ppl}
-    except FileNotFoundError:
-        context = {'dirname': directory, 'tytul': 'Reklamodawcy', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z danymi Facebooka'}
 
     return render(request, 'blog/messagestats.html', context)
 
