@@ -26,12 +26,12 @@ def home(request):
     writeDirectory(dire)
 
     context = {'postdata': dire}
-    return render(request, 'blog/home.html', context)
+    return render(request, 'platforma/home.html', context)
 
 
 def changedir(request):
     context = {}
-    return render(request, 'blog/changedir.html', context)
+    return render(request, 'platforma/changedir.html', context)
 
 
 def adstats(request):
@@ -51,7 +51,7 @@ def adstats(request):
     except FileNotFoundError:
         context = {'dirname': directory, 'tytul': 'Reklamodawcy', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z danymi Facebooka'}
 
-    return render(request, 'blog/adstats.html', context)
+    return render(request, 'platforma/adstats.html', context)
 
 
 def wordstats(request):
@@ -116,7 +116,7 @@ def wordstats(request):
     # plt.savefig('/stat.png')
     context = {'tytul': 'Strona domowa', 'words': wordList, 'data': wordDict, 'pic': '/stat.png'}
 
-    return render(request, 'blog/wordstats.html', context)
+    return render(request, 'platforma/wordstats.html', context)
 
 
 def messagestats(request):
@@ -187,9 +187,9 @@ def messagestats(request):
             numberOfGroupChats += 1
     context = {'dirname': directory, 'tytul': 'Strona Domowa', 'range': range(13), 'nr': numberOfGroupChats, 'avgmsg': averageNumberOfMessages, 'ppl': ppl}
 
-    return render(request, 'blog/messagestats.html', context)
+    return render(request, 'platforma/messagestats.html', context)
 
 
 def about(request):
     context = {'tytul': 'o nas'}
-    return render(request, 'blog/about.html', context)
+    return render(request, 'platforma/about.html', context)
