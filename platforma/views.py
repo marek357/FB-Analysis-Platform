@@ -4,7 +4,7 @@ import json
 import operator
 from nltk.tokenize import word_tokenize
 
-#/Users/marekmasiak/Downloads/facebook-marekmasiak2
+
 
 
 def getDirectory():
@@ -22,7 +22,7 @@ def writeDirectory(directo):
 
 
 def home(request):
-    dire = request.POST.get('directory', '/Users/marekmasiak/Downloads/facebook-marekmasiak2')
+    dire = request.POST.get('directory', '/replace/with/own/default/dir')
     writeDirectory(dire)
 
     context = {'postdata': dire}
