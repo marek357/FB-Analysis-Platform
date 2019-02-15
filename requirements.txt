@@ -1,2 +1,3 @@
+# not entirely sure if all requirements are listed, but if there are some missing, then I'll try to add them here
 nltk.tokenize
 Django
