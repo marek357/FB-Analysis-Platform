@@ -13,7 +13,10 @@ def getDirectory():
     file = open("dire.txt", "r")
     toReturn = file.read()
     file.close()
-    return toReturn
+    if len(toReturn) > 0:
+        return toReturn
+    else:
+        return 'nie ustalono lokalizacji danych'
 
 
 def writeDirectory(directo):
@@ -44,8 +47,8 @@ def getDate(mode):
 
 
 def home(request):
-    dire = request.POST.get('directory', None)
-    days = request.POST.get('days', None)
+    dire = request.POST.get('directory', '')
+    days = request.POST.get('days', '')
     if len(str(dire)) > 0:
         writeDirectory(dire)
     if len(str(days)) > 0:
