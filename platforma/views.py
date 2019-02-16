@@ -44,10 +44,12 @@ def getDate(mode):
 
 
 def home(request):
-    dire = request.POST.get('directory', '/Users/marekmasiak/Downloads/facebook-marekmasiak2')
-    days = request.POST.get('days', 'nieograniczony')
-    writeDate(days)
-    writeDirectory(dire)
+    dire = request.POST.get('directory', None)
+    days = request.POST.get('days', None)
+    if len(str(dire)) > 0:
+        writeDirectory(dire)
+    if len(str(days)) > 0:
+        writeDate(days)
 
     context = {'postdata': getDirectory(), 'period': getDate(0)}
     return render(request, 'platforma/home.html', context)

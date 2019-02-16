@@ -3,16 +3,18 @@
 {% block content %}
 <h1>Platforma do analizy danych z Facebooka</h1>
 
+
+<form method="post" action="{% url 'platf_home' %}">
+    {% csrf_token %}
+
 <h2>Wpisz lokalizację katalogu z danymi:</h2>
-<form method="post" action="{% url 'platf_home' %}">
-    {% csrf_token %}
+
     <input type="directory" name="directory" id="directory"><br><br>
-    <input type="submit" name="submit"><br>
-</form>
+
 <h2>Zmień zakres dni, do rozpatrywania przez platformę:</h2>
-<form method="post" action="{% url 'platf_home' %}">
-    {% csrf_token %}
+
     <input type="input" name="days" id="days"><br><br>
+
     <input type="submit" name="submit"><br>
 </form>
 
