@@ -11,20 +11,25 @@
     <h2>{{nr}}</h2>
     </div>
 {% endif %}
+<table>
+    <tr>
 {% if avgmsg %}
+    <td align="left" valign="top">
     <h1>Średnia ilość wiadomości wysyłanych w całym okresie danych, zapewnionych przez Pana/Panią</h1>
     <div style="color:red;">
     <h2>{{avgmsg}}</h2>
     </div>
+    </td>
 {% endif %}
 {% if avgLP %}
+    <td align="right" valign="top">
     <h1>Średnia ilość wiadomości wysyłanych w podanym okresie danych, zapewnionych przez Pana/Panią</h1>
     <div style="color:red;">
     <h2>{{avgLP}}</h2>
     </div>
-
+    </td>
 {% endif%}
-<table>
+    </tr>
 <tr align="left">
     <td>
         {% if ppl %}
