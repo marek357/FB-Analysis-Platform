@@ -91,6 +91,7 @@ def wordstats(request):
         messageData = os.listdir(messageDataDirectory)
     except FileNotFoundError:
         context = {'dirname': directory, 'tytul': 'Statystyki wiadomości', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z danymi Facebooka'}
+        return render(request, 'platforma/messagestats.html', context)
 
     for i in range(0, len(messageData)):
         if messageData[i] != '.DS_Store':
@@ -151,6 +152,7 @@ def messagestats(request):
         messageData = os.listdir(messageDataDirectory)
     except FileNotFoundError:
         context = {'dirname': directory, 'tytul': 'Reklamodawcy', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z danymi Facebooka'}
+        return render(request, 'platforma/messagestats.html', context)
 
     for i in range(0, len(messageData)):
         if messageData[i] != '.DS_Store':
