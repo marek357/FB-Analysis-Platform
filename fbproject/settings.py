@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'googleproject.apps.GoogleprojectConfig',
     'platforma.apps.PlatformaConfig',
     'django.contrib.admin',
     'django.contrib.auth',

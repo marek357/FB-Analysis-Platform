@@ -1,6 +1,7 @@
-{% extends "platforma/base.html" %}
+{% extends "googleproject/base.html" %}
 
 {% block content %}
+
 <script type="text/javascript">
     Swal.fire({
   position: 'top-end',
@@ -9,18 +10,20 @@
   showConfirmButton: false,
   timer: 1500
 })
+
+
 </script>
 <div class="tlo">
     <div class="settings">
         <i class="fas fa-cog" onclick="window.location.href='#ustawienia'"></i>
     </div>
-    <div class="google">
-        <i class="fab fa-google" onclick="window.location.href='/googleplatform'"></i>
+    <div class="fb">
+        <i class="fab fa-facebook-f" onclick="window.location.href='/'"></i>
     </div>
     <section class="introduction">
 
         <div class="odleglosc">
-        <h1 class="lax" data-lax-preset="fadeInOut">Platforma do analizy danych z Facebooka</h1>
+        <h1 class="lax" data-lax-preset="fadeInOut">Platforma do analizy danych z <span style='color: #4285F4'>G</span><span style='color: #EA4334'>o</span><span style='color: #FBBC05'>o</span><span style='color: #4285F4'>g</span><span style='color: #35A853'>l</span><span style='color: #EA4334'>e</span></h1>
         </div>
         <div class="lax"  data-lax-translate-y="0 0, 200 100">
         <p>Scrolluj w dół</p>
@@ -39,8 +42,8 @@
             <div class="lax" data-lax-preset="driftRight">
                 <center>
                     <div class="odleglosc">
-                        <h1 onclick="window.location.href='{% url "platf_msgstats" as url1 %} {{ url1 }}'"">
-                            Statystyki dotyczące wiadomości <i class="fas fa-chevron-right"></i>
+                        <h1 onclick="window.location.href='{% url "google_lokalizacja" as url1 %} {{ url1 }}'"">
+                            Statystyki dotyczące lokalizacji <i class="fas fa-chevron-right"></i>
                         </h1>
                     </div>
                 </center>
@@ -52,7 +55,7 @@
                 <center>
                     <div class="odleglosc">
                         <h1 onclick="window.location.href='{% url "platf_adstats" as url2 %} {{ url2 }}'">
-                            <i class="fas fa-chevron-left"></i> Statystyki dotyczące reklamodawców
+                            <i class="fas fa-chevron-left"></i> Statystyki dotyczące nagrań głosowych
                         </h1>
                     </div>
                 </center>
@@ -83,7 +86,7 @@
     Obecnie rozpatrywany przedział czasowy:
     {{period}}
 {% endif %}
-<a id="ustawienia" class="button" href="{% url 'platf_chdir' as url4 %} {{ url4 }}"> Zmień </a>
+<a id="ustawienia" class="button" href="{% url 'google_chdir' as url4 %} {{ url4 }}"> Zmień </a>
 <br><br><br>
 {% if dirdata %}
     {{dirdata}}

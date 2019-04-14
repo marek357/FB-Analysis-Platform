@@ -1,0 +1,25 @@
+{% extends "googleproject/base.html" %}
+
+{% block content %}
+<h1>Platforma do analizy danych z Google</h1>
+
+
+<form method="post" action="{% url 'google_home' %}">
+    {% csrf_token %}
+
+<h2>Wpisz lokalizację katalogu z danymi:</h2>
+
+    <input type="directory" name="directory" id="directory"><br><br>
+
+<h2>Zmień zakres dni, do rozpatrywania przez platformę:</h2>
+
+    <input type="input" name="days" id="days"><br><br>
+
+    <input type="submit" name="submit"><br>
+</form>
+
+
+
+
+{% endblock content %}
+

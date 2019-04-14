@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% load static %}
-    <link href="{% static 'platforma/style.css' %}" rel="stylesheet" type="text/css" media="all">
+    <link href="{% static 'googleproject/style.css' %}" rel="stylesheet" type="text/css" media="all">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
     <!-- Bootstrap CSS -->
     <!--
@@ -32,6 +32,11 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+
+    <div id="map"></div>
+
     <script type="text/javascript">
         window.onload = function() {
         lax.setup() // init
@@ -42,11 +47,53 @@
         }
 
         window.requestAnimationFrame(updateLax)
+          var center = {lat: 51.2944275, lng: 22.2244805};
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: center
+          });
+
+        var locations = [
+        {% for miejsce in data %}
+            ['X',
+            {% for a in miejsce %}
+                {{a}},
+            {% endfor %}
+        ],
+        {% endfor %}
+        ];
+
+        var infowindow = new google.maps.InfoWindow();
+        var markers = [];
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+          });
+          markers.push(marker);
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent(toString(i));
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+
+        }
+    var markerCluster = new MarkerClusterer(map, markers);
+
+
     }
+
     </script>
 
     <div class="container">
-    {% block content %}{% endblock %}
+
+
+
     {% if error %}
         {{error}}
     {% endif %}

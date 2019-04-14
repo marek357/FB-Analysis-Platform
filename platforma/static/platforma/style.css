@@ -1,0 +1,117 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.circle {
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    background: white;
+}
+.fa-chevron-down {
+    color: #616161;
+    font-size: 0.8em;
+}
+body {
+    height: 100vh;
+    margin: 0;
+    color: white;
+    font-family: 'Montserrat';
+    background: rgb(7, 41, 61);
+}
+a {
+    font-size: 2.5em;
+}
+h1 {
+    font-size: 3em;
+    text-align: center;
+}
+
+
+
+.odleglosc {
+    padding-top: 5em;
+}
+
+
+p {
+    font-size: 1.5em;
+    text-align: center;
+    margin-top: 9em;
+
+}
+section.introduction {
+    padding-top: 10em;
+    background: rgb(7, 41, 61);
+    height: 100vh;
+}
+
+section.messagestats {
+    height: 50vh;
+    background: rgb(7, 41, 61);
+    overflow: hidden;
+    position: relative;
+}
+
+section.messagestats h1 {
+    font-size: 2.5em;
+}
+
+section.messagestats h1:hover {
+    cursor: pointer;
+}
+
+section.adstats {
+    background: rgb(7, 41, 61);
+    overflow: hidden;
+    height: 50vh;
+    position: relative;
+}
+
+section.adstats h1 {
+    font-size: 2.5em;
+}
+
+section.adstats h1:hover {
+    cursor: pointer;
+}
+
+section.wordstats {
+    background: rgb(7, 41, 61);
+    overflow: hidden;
+    position: relative;
+    height: 50vh;
+}
+
+section.wordstats h1 {
+    font-size: 2.5em;
+}
+
+section.wordstats h1:hover {
+    cursor: pointer;
+}
+
+.settings {
+    background: rgb(7, 41, 61);
+    position: sticky;
+    top: 0;
+    font-size: 1.7em;
+    padding-top: 0.2em;
+    padding-left: 0.2em;
+    z-index: 1000;
+    width: 2em;
+}
+.google {
+    float:right;
+    background: rgb(7, 41, 61);
+    position: sticky;
+    top: 0;
+    font-size: 1.7em;
+    padding-top: 0.2em;
+    padding-right: 0.2em;
+    z-index: 1000;
+    width: 2em;
+}

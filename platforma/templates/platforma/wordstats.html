@@ -19,7 +19,7 @@
     <h1>Lista 100 najczęściej używanych w Pana/Pani konwersacji słów</h1>
     <th><div style="color:red;">
     {% for word in words %}
-        <h2>{{word}}</h2>
+        <h2 class="lax" data-lax-preset="spin fadeInOut">{{word}}</h2>
     {% endfor %}
     </div></th>
 {% endif %}

@@ -54,7 +54,14 @@ def home(request):
     if len(str(days)) > 0:
         writeDate(days)
 
-    context = {'postdata': getDirectory(), 'period': getDate(0)}
+    try:
+        directory = getDirectory()
+        messagePaths = []
+        messageDataDirectory = directory + '/messages/inbox'
+        messageData = os.listdir(messageDataDirectory)
+        context = {'postdata': getDirectory(), 'period': getDate(0), 'alert': "success", 'title': "Dane są poprawne"}
+    except Exception as e:
+        context = {'postdata': getDirectory(), 'period': getDate(0), 'alert': "error", 'title': 'Dane są niepoprawne'}
     return render(request, 'platforma/home.html', context)
 
 
