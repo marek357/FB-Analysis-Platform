@@ -2,6 +2,10 @@ html {
     scroll-behavior: smooth;
 }
 
+.lista {
+    text-align: center;
+}
+
 #map {
     /*padding-top: 3em;
     align-content: center;

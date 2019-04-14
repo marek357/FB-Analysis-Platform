@@ -1,0 +1,15 @@
+{% extends "googleproject/base.html" %}
+
+{% block content %}
+<h1 >Platforma do analizy danych z <span style='color: #4285F4'>G</span><span style='color: #EA4334'>o</span><span style='color: #FBBC05'>o</span><span style='color: #4285F4'>g</span><span style='color: #35A853'>l</span><span style='color: #EA4334'>e</span></h1>
+{% if audio %}
+    <h1>Lista nagrań</h1>
+    <div class="lista">
+    {% for recording in audio %}
+        <h2>{{recording}}</h2>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock content %}
+

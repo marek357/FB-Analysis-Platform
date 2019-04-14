@@ -2,8 +2,9 @@ from django.urls import path
 from . import views
 urlpatterns = [
     path('', views.home, name='google_home'),
-    path('lok/', views.lokalizacja, name='google_lokalizacja'),
+    path('location/', views.lokalizacja, name='google_location'),
     path('changedir/', views.changedir, name='google_chdir'),
+    path('audio/', views.audio, name='google_audio'),
     path('images/m1.png', views.image1, name='google_img1'),
     path('images/m2.png', views.image2, name='google_img2'),
     path('images/m3.png', views.image3, name='google_img3'),

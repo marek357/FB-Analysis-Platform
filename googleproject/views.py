@@ -130,3 +130,17 @@ def image4(request):
 def image5(request):
     context = {}
     return HttpResponse("<meta http-equiv=\"refresh\" content=\"0; url=https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclusterer/images/m5.png\" />")
+
+
+def audio(request):
+    context = {}
+    try:
+        directory = getDirectory()
+        audioPaths = []
+        audioRecordingsDirectory = directory + '/Moja aktywność/Głos i dźwięk'
+        audioData = os.listdir(audioRecordingsDirectory)
+        context = {'dirname': directory, 'tytul': 'Statystyki nagrań', 'audio': audioData}
+    except FileNotFoundError:
+        context = {'dirname': directory, 'tytul': 'Statystyki nagrań', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z nagraniami Google\'a'}
+
+    return render(request, 'googleproject/audio.html', context)
