@@ -6,7 +6,13 @@
     <h1>Lista nagrań</h1>
     <div class="lista">
     {% for recording in audio %}
-        <h2>{{recording}}</h2>
+        <h2>
+            <audio controls>
+                <source src="/Users/marekmasiak/Downloads/Takeout/Moja aktywność/Głos i dźwięk/2019-03-31_11_46_50_719_UTC.mp3" type="audio/mpeg">
+            </audio>
+            {{recording}}
+        </h2>
+        <br>
     {% endfor %}
     </div>
 {% endif %}
