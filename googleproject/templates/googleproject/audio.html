@@ -8,7 +8,10 @@
     {% for recording in audio %}
         <h2>
             <audio controls>
-                <source src="/Users/marekmasiak/Downloads/Takeout/Moja aktywność/Głos i dźwięk/2019-03-31_11_46_50_719_UTC.mp3" type="audio/mpeg">
+                {% load static %}
+                <source src="{% static ''%}{{dirname}}/Moja aktywność/Głos i dźwięk/{{recording}}" type="audio/mpeg">
+                    <!-- {% static "" %}{{obj.a}}/{{obj.b}}/{{obj.c}}.gz -->
+                    <!-- <source src="{% static '{{dirname/Moja aktywność/Głos i dźwięk/{{recording}}} }}'%}" type="audio/mpeg"> -->
             </audio>
             {{recording}}
         </h2>

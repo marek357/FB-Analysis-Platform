@@ -6,6 +6,8 @@ from nltk.tokenize import word_tokenize
 from nltk.tokenize import RegexpTokenizer
 from datetime import datetime, timedelta
 from django.http import HttpResponse
+# from django.core.files import File
+# from .models import Audio
 
 
 def getDirectory():
@@ -60,6 +62,20 @@ def home(request):
         context = {'postdata': getDirectory(), 'period': getDate(0), 'alert': "success", 'title': "Dane są poprawne"}
     except Exception as e:
         context = {'postdata': getDirectory(), 'period': getDate(0), 'alert': "error", 'title': 'Dane są niepoprawne'}
+
+    # try:
+    #     audioRecordingsDirectory = directory + '/Moja aktywność/Głos i dźwięk'
+    #     audioData = os.listdir(audioRecordingsDirectory)
+    #     for audioFile in audioData:
+    #         print(audioFile)
+    #         reopen = open(audioRecordingsDirectory + "/" + audioFile, "rb")
+    #         audioFileRecording = File(reopen)
+    #         nagranie = Audio(tytul=audioFile, nagranie=audioFileRecording)
+    #         nagranie.save()
+
+    #     print(Audio.objects.all())
+    # except Exception as e:
+    #     print (e)
     return render(request, 'googleproject/home.html', context)
 
 
@@ -134,11 +150,18 @@ def image5(request):
 
 def audio(request):
     context = {}
+    nagrania = {}
     try:
         directory = getDirectory()
         audioPaths = []
         audioRecordingsDirectory = directory + '/Moja aktywność/Głos i dźwięk'
         audioData = os.listdir(audioRecordingsDirectory)
+        for rec in audioData:
+            nagrania[rec] = (audioRecordingsDirectory + "/" + rec).encode("utf-8").decode()
+
+        for rec in nagrania:
+            print(str(rec) + " " + str(nagrania[rec]))
+
         context = {'dirname': directory, 'tytul': 'Statystyki nagrań', 'audio': audioData}
     except FileNotFoundError:
         context = {'dirname': directory, 'tytul': 'Statystyki nagrań', 'error': 'Niestety w podanej ścieżce nie znaleziono plików z nagraniami Google\'a'}
